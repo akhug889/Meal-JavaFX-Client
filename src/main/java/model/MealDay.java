@@ -40,6 +40,10 @@ public class MealDay extends Observable {
         return meals;
     }
 
+    public void setMeals(List<Meal> meals) {
+        this.meals = meals;
+    }
+
     public LocalDate getDate() {
         return date;
     }

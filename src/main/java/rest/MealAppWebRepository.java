@@ -1,6 +1,7 @@
 package rest;
 
 import model.Meal;
+import model.MealDay;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -63,4 +64,15 @@ public class MealAppWebRepository {
         rest.delete(url);
     }
 
+
+    public MealDay saveMealDay(MealDay mealDay) {
+        String url = BASE_URL + "/meal-days";
+        return rest.postForObject(url, mealDay, MealDay.class);
+    }
+
+    public List<MealDay> getAllMealDays() {
+        String url = BASE_URL + "/meal-days";
+        ResponseEntity<List<MealDay>> response = rest.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<List<MealDay>>() {});
+        return response.getBody();
+    }
 }

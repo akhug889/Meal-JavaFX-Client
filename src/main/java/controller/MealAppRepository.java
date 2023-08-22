@@ -67,7 +67,23 @@ public class MealAppRepository {
 
 
 
+    // Getters and Setters for MealDays
+    public List<MealDay> getAllMealDays() {
+        if (offlineMode) {
+            // Handle offline mode
+        } else {
+            mealDays = mealAppWebRepository.getAllMealDays();
+        }
+        return new ArrayList<>(mealDays);
+    }
 
+    public MealDay saveMealDay(MealDay mealDay) {
+        if (!offlineMode) {
+            return mealAppWebRepository.saveMealDay(mealDay);
+        }
+        // Handle offline mode if necessary
+        return null;
+    }
 
 
 }

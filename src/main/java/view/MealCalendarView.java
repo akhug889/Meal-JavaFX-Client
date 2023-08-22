@@ -2,6 +2,7 @@ package view;
 
 import controller.MealAppController;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.ListView;
 import javafx.scene.input.ClipboardContent;
@@ -14,6 +15,7 @@ import model.Meal;
 import model.MealDay;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MealCalendarView extends Stage {
@@ -22,6 +24,7 @@ public class MealCalendarView extends Stage {
     private DatePicker datePicker;
     private ListView<Meal> assignedMealsListView;
     private ListView<Meal> allMealsListView;
+    private Button saveButton;
 
     public MealCalendarView(MealAppController controller) {
         this.controller = controller;
@@ -43,6 +46,15 @@ public class MealCalendarView extends Stage {
         // Populate the allMealsListView with all available meals
         List<Meal> allMeals = controller.getAllMeals();
         allMealsListView.getItems().addAll(allMeals);
+
+        datePicker.valueProperty().addListener((observable, oldValue, newValue) -> {
+            refreshAssignedMealsList(newValue);
+        });
+
+        saveButton = new Button("Save");
+        saveButton.setOnAction(event -> saveAssignedMeals());
+        layout.setBottom(saveButton);
+
     }
 
     private void setupDragAndDrop() {
@@ -80,6 +92,7 @@ public class MealCalendarView extends Stage {
         });
     }
 
+    // Helper Methods --------------------------------------------------------------------------------------------------
     private Meal findMealByName(String name) {
         for (Meal meal : allMealsListView.getItems()) {
             if (meal.getName().equals(name)) {
@@ -87,5 +100,21 @@ public class MealCalendarView extends Stage {
             }
         }
         return null;
+    }
+
+    private void refreshAssignedMealsList(LocalDate date) {
+        // TODO: Fetch the meals assigned to the given date from the server
+        // For now, let's clear the list
+        assignedMealsListView.getItems().clear();
+    }
+
+    private void saveAssignedMeals() {
+        LocalDate selectedDate = datePicker.getValue();
+        List<Meal> assignedMeals = new ArrayList<>(assignedMealsListView.getItems());
+
+        MealDay mealDay = new MealDay(selectedDate);
+        mealDay.setMeals(assignedMeals);
+
+        controller.saveMealDay(mealDay);
     }
 }

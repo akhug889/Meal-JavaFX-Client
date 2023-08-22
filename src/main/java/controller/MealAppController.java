@@ -50,6 +50,16 @@ public class MealAppController extends Observable {
         notifyObservers();
     }
 
+    // CRUDE Operations - MealDay
+    public void saveMealDay(MealDay mealDay) {
+        MealDay mealDaySaved = mealAppRepository.saveMealDay(mealDay);
+        //System.out.println(mealDaySaved);
+        notifyObservers();
+    }
+
+    public List<MealDay> getAllMealDays() {
+        return mealAppRepository.getAllMealDays();
+    }
 
     // Managing Views
     public void openSelectMealView(Meal meal) {
