@@ -11,6 +11,7 @@ public class Meal {
     private int kcal;
     private List<MealIngredient> mealIngredients;
     private HealthTag healthTag;
+    private byte[] imageData;
 
     // Constructors
 
@@ -88,6 +89,14 @@ public class Meal {
 
     public void setHealthTag(HealthTag healthTag) {
         this.healthTag = healthTag;
+    }
+
+    public byte[] getImageData() {
+        return imageData;
+    }
+
+    public void setImageData(byte[] imageData) {
+        this.imageData = imageData;
     }
 
     @Override

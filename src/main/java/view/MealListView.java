@@ -86,10 +86,22 @@ public class MealListView extends Stage implements Observer {
         mealTableView.setOnMouseClicked(event -> selectMeal(mealTableView.getSelectionModel().getSelectedItem()));
         vbox.getChildren().addAll(mealListLabel, mealTableView, createButton);
 
+        // Inside the generateUserInterface() method of MealListView
+        Button assignMealsButton = new Button("Assign Meals to Day");
+        assignMealsButton.setOnAction(event -> openMealCalendarView());
+        vbox.getChildren().add(assignMealsButton);
+
         Scene scene = new Scene(vbox, SCENE_WIDTH, SCENE_HEIGHT);
         setScene(scene);
         setTitle("Meal List");
         update();
     }
+
+
+    private void openMealCalendarView() {
+        MealCalendarView mealDayView = new MealCalendarView(controller);
+        mealDayView.show();
+    }
+
 }
 

@@ -1,5 +1,21 @@
 package view;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.embed.swing.SwingFXUtils;
 
+import controller.MealAppController;
+import javafx.geometry.Insets;
+import javafx.scene.Node;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import controller.MealAppController;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -19,6 +35,12 @@ import model.Ingredient;
 import model.Meal;
 import model.MealIngredient;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.util.Map;
 
 
@@ -36,6 +58,8 @@ public class MealUpdateView extends Stage implements Observer {
     private VBox ingredientVBox;
     private HBox lastRow = null;
     private Button saveButton;
+    private Button selectImageButton;
+    private ImageView selectedImageView;
 
     // Controller
     private MealAppController controller;
@@ -162,6 +186,33 @@ public class MealUpdateView extends Stage implements Observer {
         grid.getChildren().addAll(ingredientLabel, ingredientVBox);
         grid.getChildren().add(saveButton);
         vbox.getChildren().add(grid);
+        selectImageButton = new Button("Select Image");
+        selectedImageView = new ImageView();
+        selectedImageView.setFitWidth(150); // Adjust as needed
+        selectedImageView.setFitHeight(150); // Adjust as needed
+        if (meal.getImageData() != null) {
+            Image image = byteArrayToImage(meal.getImageData());
+            selectedImageView.setImage(image);
+        }
+
+
+        selectImageButton.setOnAction(event -> {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg"));
+            File selectedFile = fileChooser.showOpenDialog(this);
+            if (selectedFile != null) {
+                Image image = new Image(selectedFile.toURI().toString());
+                selectedImageView.setImage(image);
+                byte[] imageData = imageToByteArray(image);
+                meal.setImageData(imageData);
+
+            }
+        });
+
+        GridPane.setConstraints(selectImageButton, 0, 5); // Adjust the row index as needed
+        GridPane.setConstraints(selectedImageView, 1, 5); // Adjust the row index as needed
+
+        grid.getChildren().addAll(selectImageButton, selectedImageView);
 
         Scene scene = new Scene(vbox, SCENE_WIDTH, SCENE_HEIGHT);
         setScene(scene);
@@ -270,6 +321,23 @@ public class MealUpdateView extends Stage implements Observer {
         lastRow = ingredientRow; // Keep track of the last row
 
         ingredientVBox.getChildren().add(ingredientRow);
+    }
+
+    private byte[] imageToByteArray(Image image) {
+        BufferedImage bImage = SwingFXUtils.fromFXImage(image, null);
+        ByteArrayOutputStream s = new ByteArrayOutputStream();
+        try {
+            ImageIO.write(bImage, "png", s);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        byte[] byteArray = s.toByteArray();
+        return byteArray;
+    }
+
+    private Image byteArrayToImage(byte[] imageData) {
+        ByteArrayInputStream inputStream = new ByteArrayInputStream(imageData);
+        return new Image(inputStream);
     }
 
 }

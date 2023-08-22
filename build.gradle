@@ -4,7 +4,7 @@ plugins {
 }
 javafx {
     version = "17"
-    modules = ['javafx.controls']
+    modules = ['javafx.controls', 'javafx.swing']
 }
 
 group 'org.example'
@@ -17,6 +17,8 @@ repositories {
 dependencies {
     implementation 'org.springframework:spring-web:6.0.6'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.5'
+    implementation 'org.openjfx:javafx-swing:17'
+
 
 }
 
