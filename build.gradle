@@ -1,0 +1,26 @@
+plugins {
+    id 'java'
+    id 'org.openjfx.javafxplugin' version '0.0.13'
+}
+javafx {
+    version = "17"
+    modules = ['javafx.controls']
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework:spring-web:6.0.6'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.5'
+
+}
+
+
+test {
+    useJUnitPlatform()
+}
