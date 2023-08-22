@@ -12,6 +12,10 @@ public class MealDay extends Observable {
     private LocalDate date;
 
     // Constructor
+
+    public MealDay() {
+    }
+
     public MealDay(LocalDate date) {
         this.date = date;
     }

@@ -12,6 +12,7 @@ public class Meal {
     private List<MealIngredient> mealIngredients;
     private HealthTag healthTag;
     private byte[] imageData;
+    private List<MealDay> mealDays;
 
     // Constructors
 
@@ -93,6 +94,14 @@ public class Meal {
 
     public byte[] getImageData() {
         return imageData;
+    }
+
+    public List<MealDay> getMealDays() {
+        return mealDays;
+    }
+
+    public void setMealDays(List<MealDay> mealDays) {
+        this.mealDays = mealDays;
     }
 
     public void setImageData(byte[] imageData) {

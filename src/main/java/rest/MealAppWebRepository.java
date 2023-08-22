@@ -10,7 +10,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -70,9 +72,24 @@ public class MealAppWebRepository {
         return rest.postForObject(url, mealDay, MealDay.class);
     }
 
+    // idk if this needed
     public List<MealDay> getAllMealDays() {
         String url = BASE_URL + "/meal-days";
         ResponseEntity<List<MealDay>> response = rest.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<List<MealDay>>() {});
         return response.getBody();
     }
+
+    public List<Meal> getAllMealsOfDay(Long mealDayId) {
+        String url = BASE_URL + "/meals-days/" + mealDayId;
+        Meal[] mealsArray = rest.getForObject(url, Meal[].class);
+        return Arrays.asList(mealsArray);
+    }
+
+    public List<Meal> getAllMealsByDate(LocalDate date) {
+        String url = BASE_URL + "/meals-days/date/" + date;
+        Meal[] mealsArray = rest.getForObject(url, Meal[].class);
+        return Arrays.asList(mealsArray);
+    }
+
+
 }

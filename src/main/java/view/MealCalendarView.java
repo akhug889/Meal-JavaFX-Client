@@ -103,10 +103,14 @@ public class MealCalendarView extends Stage {
     }
 
     private void refreshAssignedMealsList(LocalDate date) {
-        // TODO: Fetch the meals assigned to the given date from the server
-        // For now, let's clear the list
+        // Fetch the meals assigned to the given date from the server
+        List<Meal> mealsOfDay = controller.getAllMealsByDate(date);
+
+        // Clear the current items and add the fetched meals
         assignedMealsListView.getItems().clear();
+        assignedMealsListView.getItems().addAll(mealsOfDay);
     }
+
 
     private void saveAssignedMeals() {
         LocalDate selectedDate = datePicker.getValue();

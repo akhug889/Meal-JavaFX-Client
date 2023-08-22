@@ -61,6 +61,15 @@ public class MealAppController extends Observable {
         return mealAppRepository.getAllMealDays();
     }
 
+    public List<Meal> getAllMealsOfDay(Long mealDayId) {
+
+        return mealAppRepository.getAllMealsOfDay(mealDayId);
+    }
+
+    public List<Meal> getAllMealsByDate(LocalDate date) {
+        return mealAppRepository.getAllMealsByDate(date);
+    }
+
     // Managing Views
     public void openSelectMealView(Meal meal) {
         mealUpdateView = new MealUpdateView(this, meal);

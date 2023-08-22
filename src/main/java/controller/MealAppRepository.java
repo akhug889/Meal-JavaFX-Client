@@ -86,6 +86,13 @@ public class MealAppRepository {
     }
 
 
+    public List<Meal> getAllMealsOfDay(Long mealDayId) {
+        return mealAppWebRepository.getAllMealsOfDay(mealDayId);
+    }
+
+    public List<Meal> getAllMealsByDate(LocalDate date) {
+        return mealAppWebRepository.getAllMealsByDate(date);
+    }
 }
 
 
