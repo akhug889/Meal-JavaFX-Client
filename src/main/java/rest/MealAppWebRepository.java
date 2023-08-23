@@ -3,10 +3,7 @@ package rest;
 import model.Meal;
 import model.MealDay;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
@@ -69,8 +66,14 @@ public class MealAppWebRepository {
 
     public MealDay saveMealDay(MealDay mealDay) {
         String url = BASE_URL + "/meal-days";
-        return rest.postForObject(url, mealDay, MealDay.class);
+        ResponseEntity<MealDay> response = rest.exchange(url, HttpMethod.POST, new HttpEntity<>(mealDay), MealDay.class);
+        if (response.getStatusCode() == HttpStatus.CREATED || response.getStatusCode() == HttpStatus.OK) {
+            return response.getBody();
+        }
+        // Handle other responses or errors as needed
+        return null;
     }
+
 
     // idk if this needed
     public List<MealDay> getAllMealDays() {
