@@ -29,15 +29,24 @@ public class MealAppWebRepository {
     // Methods
     public List<Meal> getAllMeals() {
         String url = BASE_URL + "/meals";
+
+        // Set up the headers with the bearer token
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqcCIsImlhdCI6MTY5Mjg5ODE5NCwiZXhwIjoxNjkyOTM0MTk0fQ.Di7UQ4r9mjJtU2SmMB7lX-Spa4oNP3TbBjvKsI5M0I0"); // Replace YOUR_TOKEN with your actual token
+
+        // Create an HttpEntity with the headers
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+
         ResponseEntity<List<Meal>> responseEntity = rest.exchange(
                 url,
                 HttpMethod.GET,
-                null,
+                entity, // Pass the HttpEntity with headers
                 new ParameterizedTypeReference<List<Meal>>() {}
         );
 
         return responseEntity.getBody();
     }
+
 
     // Get meal by id
     public Meal getMeal(Long id) {
